@@ -18,15 +18,15 @@ public class MyServlet extends HttpServlet {
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("utf8");
         response.setContentType("text/html;charset=utf8");
+        String sp = request.getServletPath();
+        //获取请求地址的userLogin.do的userLoging，把userLogin当做方法名
+        String methodName = sp.substring(sp.lastIndexOf("/"),sp.lastIndexOf(".")).replaceAll("/", "");
 
-        String methodName = request.getServletPath().substring(request.getServletPath().lastIndexOf("/")).replace("/", "");
-
-        Class t = this.getClass();
+        Class clazz = this.getClass();//this代表的是具体的servlet类，继承了MyServlet的类
 
         try {
-            Method method = t.getMethod(methodName, HttpServletRequest.class,HttpServletResponse.class);
-            String rs = (String) method.invoke(this, request,response);
-            System.out.println(rs);
+            Method method = clazz.getMethod(methodName, HttpServletRequest.class,HttpServletResponse.class);
+            method.invoke(this, request,response);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
