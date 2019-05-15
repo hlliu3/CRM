@@ -25,8 +25,9 @@ public class MyServlet extends HttpServlet {
         Class clazz = this.getClass();//this代表的是具体的servlet类，继承了MyServlet的类
 
         try {
+            //获取方法，根据方法名和方法参数类型
             Method method = clazz.getMethod(methodName, HttpServletRequest.class,HttpServletResponse.class);
-            method.invoke(this, request,response);
+            method.invoke(this, request,response);//方法调用
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {

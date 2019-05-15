@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bjpowernode.crm.workbench.dao.ActiveDao">
+	
+    <insert id="insertActive" parameterType="Activity">
+        insert into tbl_activity (id,editBy,editTime,description,
+        createTime,createBy,cost,endDate,startDate,name,owner)values (
+        #{id},#{editBy},#{editTime},#{description},
+        #{createTime},#{createBy},#{cost},#{endDate},
+        #{startDate},#{name},#{owner}
+        )
+    </insert>
+
+    <select id="selectActivityPageData" parameterType="map" resultType="Activity">
+        select active.name,u.name as owner,active.startDate,active.endDate,active.id
+
+        from tbl_activity active inner join tbl_user u on  active.owner = u.id
+
+        <where>
+            <if test="name!=null and name != ''">
+                active.name like '%' #{name} '%'
+            </if>
+            <if test="owner!=null and owner != ''">
+                and u.name like '%' #{owner} '%'
+            </if>
+            <if test="startDate!=null and startDate != ''">
+                and active.startDate &gt; #{startDate}
+            </if>
+            <if test="endDate!=null and endDate != ''">
+                and active.endDate &lt; #{endDate}
+            </if>
+        </where>
+
+        order by u.createTime desc limit #{start},#{count}
+
+    </select>
+
+    <select id="selectCountActivity" resultType="int" parameterType="map">
+        select count(*) from tbl_activity active inner join tbl_user u on  active.owner = u.id
+        <where>
+            <if test="name!=null and name != ''">
+                active.name like '%' #{name} '%'
+            </if>
+            <if test="owner!=null and owner != ''">
+                and u.name like '%' #{owner} '%'
+            </if>
+            <if test="startDate!=null and startDate != ''">
+                and active.startDate &gt; #{startDate}
+            </if>
+            <if test="endDate!=null and endDate != ''">
+                and active.endDate &lt; #{endDate}
+            </if>
+        </where>
+
+    </select>
+
+    <delete id="deleteActivityBath">
+        delete from tbl_activity where id in
+        <foreach collection="array" close=")" open="(" item="id" separator=",">
+            #{id}
+        </foreach>
+
+    </delete>
+
+    <select id="deleteActivityBathCount" resultType="int">
+        select count(*) from tbl_activity where id in
+        <foreach collection="array" close=")" open="(" item="id" separator=",">
+            #{id}
+        </foreach>
+    </select>
+
+    <select id="selectActivityById" parameterType="string" resultType="Activity">
+        select * from tbl_activity where id = #{id}
+    </select>
+
+    <update id="updateActivity" parameterType="Activity">
+        update tbl_activity set
+        owner = #{owner},
+        name = #{name},
+        startDate = #{startDate},
+        endDate = #{endDate},
+        cost = #{cost},
+        description = #{description},
+        createTime = #{createTime},
+        createBy = #{createBy},
+        editTime = #{editTime},
+        editBy = #{editBy}
+        where id = #{id}
+    </update>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

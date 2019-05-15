@@ -1,0 +1,9 @@
+:root {
+  --swal-blue: #C9DAE1;
+}
+
+.swal-icon--info {
+  border-color: var(--swal-blue);
+
+}
+

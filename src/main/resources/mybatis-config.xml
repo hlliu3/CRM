@@ -8,6 +8,7 @@
 
     <typeAliases>
         <package name="com.bjpowernode.crm.settings.domain"/>
+        <package name="com.bjpowernode.crm.workbench.domain"/>
     </typeAliases>
 
     <environments default="development">
@@ -25,6 +26,7 @@
 
     <mappers>
         <package name="com.bjpowernode.crm.settings.dao"/>
+        <package name="com.bjpowernode.crm.workbench.dao"/>
     </mappers>
 </configuration>
 

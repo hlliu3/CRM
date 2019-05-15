@@ -1,0 +1,18 @@
+:root {
+  --swal-orange: #F8BB86;
+}
+
+.swal-icon--warning {
+  border-color: var(--swal-orange);
+  animation: pulseWarning 0.75s infinite alternate;
+}
+
+@keyframes pulseWarning {
+  from {
+    border-color: #F8D486;
+  }
+  to {
+    border-color: var(--swal-orange);
+  }
+}
+

@@ -5,6 +5,25 @@
          version="4.0">
 
   <display-name>Archetype Created Web Application</display-name>
+    <filter>
+        <filter-name>encodedFilter</filter-name>
+        <filter-class>com.bjpowernode.crm.web.filter.EncodedFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>encodedFilter</filter-name>
+        <url-pattern>*.do</url-pattern>
+    </filter-mapping>
+    <filter>
+        <filter-name>LoginFilter</filter-name>
+        <filter-class>com.bjpowernode.crm.web.filter.LoginFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>LoginFilter</filter-name>
+        <url-pattern>*.do</url-pattern>
+        <url-pattern>*.jsp</url-pattern>
+    </filter-mapping>
+
+
     <servlet>
         <servlet-name>UserServlet</servlet-name>
         <servlet-class>com.bjpowernode.crm.settings.web.controller.UserServlet</servlet-class>
@@ -12,5 +31,19 @@
     <servlet-mapping>
         <servlet-name>UserServlet</servlet-name>
         <url-pattern>/user/userLogin.do</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ActivityServlet</servlet-name>
+        <servlet-class>com.bjpowernode.crm.workbench.web.controller.ActiveServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ActivityServlet</servlet-name>
+        <url-pattern>/activity/insertActive.do</url-pattern>
+        <url-pattern>/activity/selectUserList.do</url-pattern>
+        <url-pattern>/activity/pageActivityShow.do</url-pattern>
+        <url-pattern>/activity/deleteActivityBath.do</url-pattern>
+        <url-pattern>/activity/updateActivity.do</url-pattern>
+        <url-pattern>/activity/selectUserListAndActivity.do</url-pattern>
     </servlet-mapping>
 </web-app>

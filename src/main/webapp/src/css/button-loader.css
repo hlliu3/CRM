@@ -1,0 +1,26 @@
+.swal-button--loading {
+  color: transparent;
+
+}
+
+.swal-button__loader {
+  position: absolute;
+  height: auto;
+  width: 43px;
+  z-index: 2;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  text-align: center;
+  pointer-events: none;
+  opacity: 0;
+
+}
+
+@keyframes swal-loading-anim {
+  0%   { opacity: 0.4; }
+  20%  { opacity: 0.4; }
+  50% { opacity: 1.0; }
+  100% { opacity: 0.4; }
+}
+

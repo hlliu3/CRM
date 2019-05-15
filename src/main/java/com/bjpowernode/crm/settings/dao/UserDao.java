@@ -2,6 +2,8 @@ package com.bjpowernode.crm.settings.dao;
 
 import com.bjpowernode.crm.settings.domain.User;
 
+import java.util.List;
+
 /**
  * DESCRIPTION:
  * user:
@@ -9,4 +11,5 @@ import com.bjpowernode.crm.settings.domain.User;
  */
 public interface UserDao {
     public User getUserByNameAndPw(User user);
+    public List<User> getUserList();
 }
