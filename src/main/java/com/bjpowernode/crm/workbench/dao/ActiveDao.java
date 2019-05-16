@@ -12,11 +12,14 @@ import java.util.Map;
  * date:2019/5/13  19:24
  */
 public interface ActiveDao {
-    public int insertActive(Activity activity);
-    public int selectCountActivity(Map<String,Object> map);
-    public List<Activity> selectActivityPageData(Map<String,Object> map);
-    public int deleteActivityBath(String[] ids);
-    public int deleteActivityBathCount(String[] ids);
-    public Activity selectActivityById(String id);
-    public int updateActivity(Activity activity);
+    int insertActive(Activity activity);
+    int selectCountActivity(Map<String,Object> map);
+    List<Activity> selectActivityPageData(Map<String,Object> map);
+    int deleteActivityBath(String[] ids);
+    int deleteActivityBathCount(String[] ids);
+    Activity selectActivityById(String id);
+    int updateActivity(Activity activity);
+
+    Activity selectactivityDetailById(String activityId);
+
 }

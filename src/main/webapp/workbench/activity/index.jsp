@@ -87,7 +87,8 @@
 
             pageActivityShow(1, 5);
 
-            $("#search-activity").click(function () {//点击查询将数据保存在隐藏标签域中
+            //点击查询将数据保存在隐藏标签域中
+            $("#search-activity").click(function () {
                 $("#hidden-name").val($.trim($("#select-name").val()));
                 $("#hidden-owner").val($.trim($("#select-owner").val()));
                 $("#hidden-startDate").val($.trim($("#select-startDate").val()));
@@ -96,6 +97,7 @@
                 pageActivityShow(1, $("#activityPage").bs_pagination('getOption', 'rowsPerPage'));
             });
 
+            //全选
             $("#selectAll").click(function () {
                 $(":checkbox[name='ck']").prop("checked",$("#selectAll").prop("checked"));
             });
@@ -109,7 +111,14 @@
                     $("#selectAll").prop("checked",false);
                 }
             });
-
+                    //这种对动态生成的标签绑定事件的方式不对
+                    /*$(":checkbox[name='ck']").click(function () {
+                           if($(":checkbox[name='ck']:checked").length == $(":checkbox[name='ck']").length&&$(":checkbox[name='ck']:checked").length>0){
+                               $("#selectAll").prop("checked",true);
+                           }else{
+                               $("#selectAll").prop("checked",false);
+                           }
+                       });*/
 
             //批量删除
             $("#deleteBtn").click(function () {
@@ -151,13 +160,7 @@
 
             });
             
-            /*$(":checkbox[name='ck']").click(function () {
-                if($(":checkbox[name='ck']:checked").length == $(":checkbox[name='ck']").length&&$(":checkbox[name='ck']:checked").length>0){
-                    $("#selectAll").prop("checked",true);
-                }else{
-                    $("#selectAll").prop("checked",true);
-                }
-            });*/
+
 
             //更新打开模态框,展示数据和用户列表
             $("#updateBtn").click(function () {
@@ -251,7 +254,7 @@
                         html += "<tr class=\"active\">";
                         html += "<td><input type=\"checkbox\" name='ck' value='"+eachData.id+"'/></td>";
                         html += "<td><a style=\"text-decoration: none; cursor: pointer;\"" +
-                            " onclick=\"window.location.href='workbench/activity/detail.jsp';\">" + eachData.name + "</a></td>";
+                            " onclick=\"window.location.href='activity/activityDetail.do?id="+eachData.id+"';\">" + eachData.name + "</a></td>";
                         html += "<td>" + eachData.owner + "</td>";
                         html += "<td>" + eachData.startDate + "</td>";
                         html += "<td>" + eachData.startDate + "</td></tr>";

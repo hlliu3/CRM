@@ -27,10 +27,10 @@
                 and u.name like '%' #{owner} '%'
             </if>
             <if test="startDate!=null and startDate != ''">
-                and active.startDate &gt; #{startDate}
+                and active.startDate &gt;= #{startDate}
             </if>
             <if test="endDate!=null and endDate != ''">
-                and active.endDate &lt; #{endDate}
+                and active.endDate &lt;= #{endDate}
             </if>
         </where>
 
@@ -48,10 +48,10 @@
                 and u.name like '%' #{owner} '%'
             </if>
             <if test="startDate!=null and startDate != ''">
-                and active.startDate &gt; #{startDate}
+                and active.startDate &gt;= #{startDate}
             </if>
             <if test="endDate!=null and endDate != ''">
-                and active.endDate &lt; #{endDate}
+                and active.endDate &lt;= #{endDate}
             </if>
         </where>
 
@@ -75,7 +75,22 @@
     <select id="selectActivityById" parameterType="string" resultType="Activity">
         select * from tbl_activity where id = #{id}
     </select>
+    <select id="selectactivityDetailById" parameterType="string" resultType="Activity">
+        select
+        ta.id,
+        tu.name as owner,
+        ta.name,
+        ta.startDate,
+        ta.endDate,
+        ta.cost,
+        ta.description,
+        ta.createTime,
+        ta.createBy,
+        ta.editTime,
+        ta.editBy
+        from tbl_activity ta inner join tbl_user tu on ta.owner = tu.id where ta.id = #{id};
 
+    </select>
     <update id="updateActivity" parameterType="Activity">
         update tbl_activity set
         owner = #{owner},

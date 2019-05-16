@@ -5,12 +5,15 @@ import com.bjpowernode.crm.settings.service.UserService;
 import com.bjpowernode.crm.settings.service.impl.UserServiceImpl;
 import com.bjpowernode.crm.utils.*;
 import com.bjpowernode.crm.workbench.domain.Activity;
+import com.bjpowernode.crm.workbench.domain.ActivityRemark;
 import com.bjpowernode.crm.workbench.domain.PageDataVO;
 import com.bjpowernode.crm.workbench.serivce.ActiveService;
 import com.bjpowernode.crm.workbench.serivce.impl.ActiveServiceImpl;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -101,5 +104,62 @@ public class ActiveServlet extends MyServlet {
         activity.setEditTime(DateTimeUtil.getSysTime());
         boolean flag = acticeService.updateActivity(activity);
         PrintJson.printJsonFlag(response, flag);
+    }
+
+    public void activityDetail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String activityId = request.getParameter("id");
+        acticeService = (ActiveService) ServiceFactory.getService(new ActiveServiceImpl());
+        Activity activity = acticeService.activityDetail(activityId);
+        request.setAttribute("activityDetail", activity);
+        request.getRequestDispatcher("/workbench/activity/detail.jsp").forward(request, response);
+    }
+
+    public void selectRemarkByActivityId(HttpServletRequest request, HttpServletResponse response){
+        String activityId = request.getParameter("id");
+        acticeService = (ActiveService) ServiceFactory.getService(new ActiveServiceImpl());
+        List<ActivityRemark> activityRemarks = acticeService.selectRemarkByActivityId(activityId);
+
+
+        PrintJson.printJsonObj(response, activityRemarks);
+    }
+
+    public void deleteActivityRemarkByRemarkId(HttpServletRequest request, HttpServletResponse response){
+        String id = request.getParameter("id");
+        acticeService = (ActiveService) ServiceFactory.getService(new ActiveServiceImpl());
+        boolean flag = acticeService.deleteActivityRemarkByRemarkId(id);
+        PrintJson.printJsonFlag(response, flag);
+    }
+
+    public void updateActivityRemarkByRemarkId(HttpServletRequest request, HttpServletResponse response){
+        String id = request.getParameter("id");
+        String date = DateTimeUtil.getSysTime();
+        ActivityRemark activityRemark = new ActivityRemark();
+        activityRemark.setEditBy(((User)(request.getSession().getAttribute("userInfo"))).getName());
+        activityRemark.setEditTime(date);
+        activityRemark.setEditFlag("1");//设置是否更改过备注
+        activityRemark.setNoteContent(request.getParameter("noteContent"));
+        activityRemark.setId(id);
+        acticeService = (ActiveService) ServiceFactory.getService(new ActiveServiceImpl());
+        boolean flag = acticeService.updateActivityRemarkByRemarkId(activityRemark);
+        HashMap<String,Object> map = new HashMap<>();
+        map.put("success", flag);
+        map.put("remark",activityRemark);
+        PrintJson.printJsonObj(response, map);
+    }
+
+    public void insertRemark(HttpServletRequest request, HttpServletResponse response){
+        ActivityRemark activityRemark = new ActivityRemark();
+        activityRemark.setNoteContent(request.getParameter("noteContent"));
+        activityRemark.setId(UUIDUtil.getUUID());
+        activityRemark.setCreateBy(((User)(request.getSession().getAttribute("userInfo"))).getName());
+        activityRemark.setCreateTime(DateTimeUtil.getSysTime());
+        activityRemark.setEditFlag("0");
+        activityRemark.setActivityId(request.getParameter("activityId"));
+        acticeService = (ActiveService) ServiceFactory.getService(new ActiveServiceImpl());
+        boolean flag = acticeService.insertRemark(activityRemark);
+        HashMap<String,Object> map = new HashMap<>();
+        map.put("success", flag);
+        map.put("remark",activityRemark);
+        PrintJson.printJsonObj(response, map);
     }
 }

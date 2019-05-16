@@ -1,6 +1,8 @@
 package com.bjpowernode.crm.workbench.serivce;
 
+import com.bjpowernode.crm.workbench.dao.ActiveRemarkDao;
 import com.bjpowernode.crm.workbench.domain.Activity;
+import com.bjpowernode.crm.workbench.domain.ActivityRemark;
 import com.bjpowernode.crm.workbench.domain.PageDataVO;
 
 import java.util.HashMap;
@@ -13,14 +15,23 @@ import java.util.Map;
  * date:2019/5/13  19:28
  */
 public interface ActiveService {
-    public boolean insertActive(Activity activity);
+    boolean insertActive(Activity activity);
 
-    public PageDataVO<Activity> selectActivityPageData(Map<String, Object> map);
+    PageDataVO<Activity> selectActivityPageData(Map<String, Object> map);
 
-    public boolean deleteActivityBath(String[] ids);
+    boolean deleteActivityBath(String[] ids);
 
-    public HashMap<String,Object> selectActivityById(String id);
+    HashMap<String,Object> selectActivityById(String id);
 
-    public boolean updateActivity(Activity activity);
+    boolean updateActivity(Activity activity);
 
+    Activity activityDetail(String activityId);
+
+    List<ActivityRemark> selectRemarkByActivityId(String id);
+
+    boolean deleteActivityRemarkByRemarkId(String id);
+
+    boolean updateActivityRemarkByRemarkId(ActivityRemark activityRemark);
+
+    boolean insertRemark(ActivityRemark activityRemark);
 }

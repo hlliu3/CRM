@@ -6,8 +6,10 @@ import com.bjpowernode.crm.utils.SqlSessionUtil;
 import com.bjpowernode.crm.workbench.dao.ActiveDao;
 import com.bjpowernode.crm.workbench.dao.ActiveRemarkDao;
 import com.bjpowernode.crm.workbench.domain.Activity;
+import com.bjpowernode.crm.workbench.domain.ActivityRemark;
 import com.bjpowernode.crm.workbench.domain.PageDataVO;
 import com.bjpowernode.crm.workbench.serivce.ActiveService;
+import org.apache.ibatis.session.SqlSession;
 
 import java.util.HashMap;
 import java.util.List;
@@ -19,20 +21,24 @@ import java.util.Map;
  * date:2019/5/13  19:29
  */
 public class ActiveServiceImpl implements ActiveService {
-    ActiveDao activeDao = null;
-    ActiveRemarkDao activeRemarkDao = null;
-    UserDao userDao = null;
+    private ActiveDao activeDao = null;
+    private ActiveRemarkDao activeRemarkDao = null;
+    private UserDao userDao = null;
+    @Override
     public boolean insertActive(Activity activity){
         activeDao = SqlSessionUtil.getSqlSession().getMapper(ActiveDao.class);
-        int flag = 0;
+        int flag ;
 
-        flag = activeDao.insertActive(activity);//异常
-
-        if(flag>0){
-            return true;
-        }else{
+        try {
+            flag = activeDao.insertActive(activity);//异常
+            if(flag==0){
+               return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
+        return true;
     }
 
     @Override
@@ -48,10 +54,10 @@ public class ActiveServiceImpl implements ActiveService {
 
     @Override
     public boolean deleteActivityBath(String[] ids) {
-        int flagActivity = 0;
-        int flagActivityRemark = 0;
-        int deleteActivityCount = 0;
-        int deleteActivityRemarkCount = 0;
+        int flagActivity ;
+        int flagActivityRemark ;
+        int deleteActivityCount ;
+        int deleteActivityRemarkCount ;
 
         activeDao = SqlSessionUtil.getSqlSession().getMapper(ActiveDao.class);
         activeRemarkDao = SqlSessionUtil.getSqlSession().getMapper(ActiveRemarkDao.class);
@@ -62,13 +68,13 @@ public class ActiveServiceImpl implements ActiveService {
         deleteActivityRemarkCount = activeRemarkDao.deleteActivityBathOfRemark(ids);
         try {
             if(deleteActivityRemarkCount != flagActivityRemark){
-                throw new RuntimeException("删除remark失败");
+                return false;
             }
             deleteActivityCount = activeDao.deleteActivityBath(ids);
             if(deleteActivityCount != flagActivity){
-                throw new RuntimeException("删除activity失败");
+                return false;
             }
-        } catch (RuntimeException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
@@ -80,7 +86,7 @@ public class ActiveServiceImpl implements ActiveService {
         activeDao = SqlSessionUtil.getSqlSession().getMapper(ActiveDao.class);
         userDao = SqlSessionUtil.getSqlSession().getMapper(UserDao.class);
 
-        Activity activity = null;
+        Activity activity ;
         activity = activeDao.selectActivityById(id);
         List<User> userList = userDao.getUserList();
         HashMap<String,Object> hashMap = new HashMap<>();
@@ -92,13 +98,58 @@ public class ActiveServiceImpl implements ActiveService {
     @Override
     public boolean updateActivity(Activity activity) {
         activeDao = SqlSessionUtil.getSqlSession().getMapper(ActiveDao.class);
-        int flag = activeDao.updateActivity(activity);
-        if(flag==1){
-            return true;
-        }else{
+        int flag;
+        try {
+            flag = activeDao.updateActivity(activity);
+            if(flag!=1){
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
+        return true;
 
     }
 
+    @Override
+    public Activity activityDetail(String activityId) {
+        activeDao = SqlSessionUtil.getSqlSession().getMapper(ActiveDao.class);
+        Activity activity = activeDao.selectactivityDetailById(activityId);
+        return activity;
+    }
+
+    @Override
+    public List<ActivityRemark> selectRemarkByActivityId(String id) {
+        activeRemarkDao = SqlSessionUtil.getSqlSession().getMapper(ActiveRemarkDao.class);
+        List<ActivityRemark> activityRemarks = activeRemarkDao.selectRemarkByActivityId(id);
+
+        return activityRemarks;
+    }
+
+    @Override
+    public boolean deleteActivityRemarkByRemarkId(String id) {
+        activeRemarkDao = SqlSessionUtil.getSqlSession().getMapper(ActiveRemarkDao.class);
+        int flag = 0;
+        flag = activeRemarkDao.deleteActivityRemarkByRemarkId(id);
+        return flag==0?false:true;
+
+    }
+
+    @Override
+    public boolean updateActivityRemarkByRemarkId(ActivityRemark activityRemark) {
+        activeRemarkDao = SqlSessionUtil.getSqlSession().getMapper(ActiveRemarkDao.class);
+        int flag = 0;
+        flag = activeRemarkDao.updateActivityRemarkByRemarkId(activityRemark);
+
+       return flag==0?false:true;
+    }
+
+    @Override
+    public boolean insertRemark(ActivityRemark activityRemark) {
+        activeRemarkDao = SqlSessionUtil.getSqlSession().getMapper(ActiveRemarkDao.class);
+        int flag = 0;
+        flag = activeRemarkDao.insertRemark(activityRemark);
+        return flag==0?false:true;
+    }
 }

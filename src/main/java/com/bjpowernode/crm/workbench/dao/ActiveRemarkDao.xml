@@ -19,6 +19,41 @@
             #{activeid}
         </foreach>
     </select>
+
+    <select id="selectRemarkByActivityId" parameterType="string" resultType="ActivityRemark">
+        select * from tbl_activity_remark where activityId = #{id} order by editTime,createTime
+    </select>
+
+    <delete id="deleteActivityRemarkByRemarkId" parameterType="string">
+        delete from tbl_activity_remark where id = #{id}
+    </delete>
+
+    <update id="updateActivityRemarkByRemarkId" parameterType="ActivityRemark">
+        update tbl_activity_remark set
+        noteContent=#{noteContent},
+        editTime=#{editTime},
+        editBy=#{editBy},
+        editFlag=#{editFlag}
+        where id = #{id}
+    </update>
+
+    <insert id="insertRemark" parameterType="ActivityRemark">
+        insert into tbl_activity_remark
+            (id,
+            noteContent,
+            createTime,
+            createBy,
+            editFlag,
+            activityId)
+        values (
+            #{id},
+            #{noteContent},
+            #{createTime},
+            #{createBy},
+            #{editFlag},
+            #{activityId}
+        )
+    </insert>
 </mapper>
 
 

@@ -5,6 +5,10 @@
          version="4.0">
 
   <display-name>Archetype Created Web Application</display-name>
+    <listener>
+        <listener-class>com.bjpowernode.crm.web.listener.DataDictionaryCache</listener-class>
+    </listener>
+
     <filter>
         <filter-name>encodedFilter</filter-name>
         <filter-class>com.bjpowernode.crm.web.filter.EncodedFilter</filter-class>
@@ -22,6 +26,7 @@
         <url-pattern>*.do</url-pattern>
         <url-pattern>*.jsp</url-pattern>
     </filter-mapping>
+
 
 
     <servlet>
@@ -45,5 +50,19 @@
         <url-pattern>/activity/deleteActivityBath.do</url-pattern>
         <url-pattern>/activity/updateActivity.do</url-pattern>
         <url-pattern>/activity/selectUserListAndActivity.do</url-pattern>
+        <url-pattern>/activity/activityDetail.do</url-pattern>
+        <url-pattern>/activityRemark/selectRemarkByActivityId.do</url-pattern>
+        <url-pattern>/activityRemark/deleteActivityRemarkByRemarkId.do</url-pattern>
+        <url-pattern>/activityRemark/updateActivityRemarkByRemarkId.do</url-pattern>
+        <url-pattern>/activityRemark/insertRemark.do</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ClueServlet</servlet-name>
+        <servlet-class>com.bjpowernode.crm.workbench.web.controller.ClueServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ClueServlet</servlet-name>
+        <url-pattern>/clue/selectUserList.do</url-pattern>
     </servlet-mapping>
 </web-app>
