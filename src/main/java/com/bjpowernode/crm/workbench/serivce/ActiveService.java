@@ -34,4 +34,9 @@ public interface ActiveService {
     boolean updateActivityRemarkByRemarkId(ActivityRemark activityRemark);
 
     boolean insertRemark(ActivityRemark activityRemark);
+
+    List<Activity> selectActivityNotByClueId(Map<String,Object> map);
+
+    List<Activity> selectActivityListByClueId(Map<String,Object> map);
+
 }

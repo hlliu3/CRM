@@ -8,7 +8,156 @@
 	<select id="selectUserList" resultType="User">
         select * from tbl_user
     </select>
-  	
+
+    <select id="pageShowClueList" resultType="Clue" parameterType="map">
+        select
+            c.id,
+            c.fullname,
+            c.appellation,
+            c.job,
+            c.company,
+            u.name as owner,
+            c.email,
+            c.phone,
+            c.website,
+            c.mphone,
+            c.state,
+            c.source,
+            c.createBy,
+            c.createTime,
+            c.description,
+            c.contactSummary,
+            c.nextContactTime,
+            c.address
+            from tbl_clue c inner join tbl_user u on u.id = c.owner
+            <where>
+                <if test="fullname!=null and fullname!=''">
+                    c.fullname like '%' #{fullname} '%'
+                </if>
+
+                <if test="company!=null and company!=''">
+                    and c.company like '%' #{company} '%'
+                </if>
+
+                <if test="phone!=null and phone!=''">
+                    and c.phone = #{phone}
+                </if>
+
+                <if test="mphone!=null and mphone!=''">
+                    and c.mphone = #{mphone}
+                </if>
+
+                <if test="source!=null and source!=''">
+                    and c.source = #{source}
+                </if>
+
+                <if test="state!=null and state!=''">
+                    and c.state = #{state}
+                </if>
+
+                <if test="owner!=null and owner!=''">
+                    and u.name like '%' #{owner} '%'
+                </if>
+            </where>
+              order by c.createTime desc limit #{filtrationSize},#{pageSize}
+    </select>
+
+    <select id="selectCountClue" resultType="int" parameterType="map">
+        select count(*) from tbl_clue
+    </select>
+
+    <insert id="insertClue" parameterType="Clue">
+        insert into tbl_clue(
+            id,
+            fullname,
+            appellation,
+            job,
+            company,
+            owner,
+            email,
+            phone,
+            website,
+            mphone,
+            state,
+            source,
+            createBy,
+            createTime,
+            description,
+            contactSummary,
+            nextContactTime,
+            address)
+        values (
+            #{id},
+            #{fullname},
+            #{appellation},
+            #{job},
+            #{company},
+            #{owner},
+            #{email},
+            #{phone},
+            #{website},
+            #{mphone},
+            #{state},
+            #{source},
+            #{createBy},
+            #{createTime},
+            #{description},
+            #{contactSummary},
+            #{nextContactTime},
+            #{address})
+    </insert>
+
+    <select id="selectClueByClueId" resultType="Clue" parameterType="string">
+      select
+            c.id,
+            c.fullname,
+            c.appellation,
+            c.job,
+            c.company,
+            u.name as owner,
+            c.email,
+            c.phone,
+            c.website,
+            c.mphone,
+            c.state,
+            c.source,
+            c.createBy,
+            c.createTime,
+            c.description,
+            c.contactSummary,
+            c.nextContactTime,
+            c.address
+            from tbl_clue c inner join tbl_user u on u.id = c.owner where c.id = #{id}
+    </select>
+
+    <select id="selectOriginalClueByClueId" resultType="Clue" parameterType="string">
+        select
+            *
+            from tbl_clue c inner join tbl_user u on u.id = c.owner where c.id = #{id}
+    </select>
+
+    <select id="selectActivityByClueId" parameterType="string" resultType="Activity">
+       select
+        car.id as id,
+        tu.name as owner,
+        ta.name,
+        ta.startDate,
+        ta.endDate,
+        ta.cost,
+        ta.description,
+        ta.createTime,
+        ta.createBy,
+        ta.editTime,
+        ta.editBy
+        from tbl_activity ta inner join tbl_user tu on ta.owner = tu.id inner join tbl_clue_activity_relation car on ta.id = car.activityId and car.clueId = #{id}
+        where ta.id in
+        (select activityId from tbl_clue_activity_relation where clueId = #{id})
+
+    </select>
+
+    <delete id="deleteClueById" parameterType="string">
+        delete from tbl_clue where id = #{clueId}
+    </delete>
 </mapper>
 
 

@@ -20,7 +20,17 @@ public class Tran {
 	private String description;
 	private String contactSummary;	//联系纪要
 	private String nextContactTime;	//下次联系时间
-	
+
+	private String probability;
+
+	public String getProbability() {
+		return probability;
+	}
+
+	public void setProbability(String probability) {
+		this.probability = probability;
+	}
+
 	public String getId() {
 		return id;
 	}
@@ -129,8 +139,7 @@ public class Tran {
 	public void setNextContactTime(String nextContactTime) {
 		this.nextContactTime = nextContactTime;
 	}
-	
-	
 
-	
+
+
 }

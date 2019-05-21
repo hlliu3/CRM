@@ -4,9 +4,26 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.bjpowernode.crm.workbench.dao.ClueActivityRelationDao">
-	
-	
-  	
+
+    <insert id="insertActivityForClue" parameterType="list">
+        insert into tbl_clue_activity_relation(id,clueId,activityId) values
+        <foreach collection="list" separator=","  item="clue">
+            (#{clue.id},#{clue.clueId},#{clue.activityId})
+        </foreach>
+
+    </insert>
+
+    <delete id="removeActivityForClue" parameterType="string">
+        delete from tbl_clue_activity_relation where id = #{id}
+    </delete>
+
+    <select id="selectClueActivityRelation" parameterType="string" resultType="ClueActivityRelation">
+        select * from tbl_clue_activity_relation where clueId = #{clueId}
+    </select>
+
+    <delete id="deleteRelation" parameterType="string">
+        delete from tbl_clue_activity_relation where clueId = #{clueId}
+    </delete>
 </mapper>
 
 

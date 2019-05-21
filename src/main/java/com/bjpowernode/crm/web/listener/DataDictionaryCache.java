@@ -7,7 +7,10 @@ import com.bjpowernode.crm.utils.ServiceFactory;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 /**
  * DESCRIPTION:
@@ -24,8 +27,18 @@ public class DataDictionaryCache implements ServletContextListener {
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             application.setAttribute(entry.getKey(), entry.getValue());
         }
-
         System.out.println("结束数据字典缓存");
+
+        //进行阶段对应的可能性参数进行缓存properties文件解析Stage2Possibility.properties
+        Map<String,String> statusForRateMap = new HashMap<>();
+        ResourceBundle resourceBundle = ResourceBundle.getBundle("Stage2Possibility");
+        Enumeration<String> keys = resourceBundle.getKeys();
+        while (keys.hasMoreElements()){
+            String key = keys.nextElement();
+            String value = resourceBundle.getString(key);
+            statusForRateMap.put(key, value);
+        }
+        application.setAttribute("statusForRateMap", statusForRateMap);
     }
 
     @Override

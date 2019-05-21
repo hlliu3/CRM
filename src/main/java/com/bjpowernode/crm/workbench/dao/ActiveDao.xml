@@ -105,6 +105,53 @@
         editBy = #{editBy}
         where id = #{id}
     </update>
+
+    <select id="selectActivityNotByClueId" parameterType="map" resultType="Activity">
+        select
+        ta.id,
+        tu.name as owner,
+        ta.name,
+        ta.startDate,
+        ta.endDate,
+        ta.cost,
+        ta.description,
+        ta.createTime,
+        ta.createBy,
+        ta.editTime,
+        ta.editBy
+        from tbl_activity ta inner join tbl_user tu on ta.owner = tu.id
+        <where>
+            ta.id not in
+            (select activityId from tbl_clue_activity_relation where clueId = #{id})
+            <if test="activityName!=null and activityName!=''">
+                and  ta.name like '%' #{activityName} '%'
+            </if>
+        </where>
+    </select>
+
+
+    <select id="selectActivityListByClueId" parameterType="map" resultType="Activity">
+        select
+        ta.id,
+        tu.name as owner,
+        ta.name,
+        ta.startDate,
+        ta.endDate,
+        ta.cost,
+        ta.description,
+        ta.createTime,
+        ta.createBy,
+        ta.editTime,
+        ta.editBy
+        from tbl_activity ta inner join tbl_user tu on ta.owner = tu.id
+        <where>
+            ta.id in
+            (select activityId from tbl_clue_activity_relation where clueId = #{id})
+            <if test="activityName!=null and activityName!=''">
+                and  ta.name like '%' #{activityName} '%'
+            </if>
+        </where>
+    </select>
 </mapper>
 
 

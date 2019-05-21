@@ -4,8 +4,81 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.bjpowernode.crm.workbench.dao.TranDao">
-	
-  	
+	<insert id="insertTran" parameterType="Tran">
+        insert into tbl_tran (
+            id,
+            owner,
+            money,
+            name,
+            expectedDate,
+            customerId,
+            stage,
+            type,
+            source,
+            activityId,
+            contactsId,
+            createBy,
+            createTime,
+            editBy,
+            editTime,
+            description,
+            contactSummary,
+            nextContactTime
+        )values
+        (
+            #{id},
+            #{owner},
+            #{money},
+            #{name},
+            #{expectedDate},
+            #{customerId},
+            #{stage},
+            #{type},
+            #{source},
+            #{activityId},
+            #{contactsId},
+            #{createBy},
+            #{createTime},
+            #{editBy},
+            #{editTime},
+            #{description},
+            #{contactSummary},
+            #{nextContactTime}
+        )
+    </insert>
+
+    <select id="selectTransactionById" parameterType="string" resultType="Tran">
+        select
+            tr.id,
+            tu.name as owner,
+            tr.money,
+            tr.name,
+            tr.expectedDate,
+            tcustomer.name as customerId,
+            tr.stage,
+            tr.type,
+            tr.source,
+            ta.name as activityId,
+            concat(tc.fullname,tc.appellation) as contactsId,
+            tr.createBy,
+            tr.createTime,
+            tr.editBy,
+            tr.editTime,
+            tr.description,
+            tr.contactSummary,
+            tr.nextContactTime
+        from tbl_tran tr
+        inner join tbl_user tu on tr.owner = tu.id
+        left join tbl_activity ta on ta.id = tr.activityId
+        left join tbl_contacts tc on tc.id = tr.contactsId
+        left join tbl_customer tcustomer on tcustomer.id = tr.customerId
+        where tr.id = #{id}
+
+    </select>
+    <update id="updateTransaction" parameterType="map">
+        update tbl_tran set
+        stage = #{stage},editBy = #{editBy},editTime = #{editTime} where id = #{id}
+    </update>
 </mapper>
 
 

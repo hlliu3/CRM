@@ -64,5 +64,29 @@
     <servlet-mapping>
         <servlet-name>ClueServlet</servlet-name>
         <url-pattern>/clue/selectUserList.do</url-pattern>
+        <url-pattern>/clue/insertClue.do</url-pattern>
+        <url-pattern>/clue/pageShowClueList.do</url-pattern>
+        <url-pattern>/clue/selectClueByClueId.do</url-pattern>
+        <url-pattern>/clue/selectActivityByClueId.do</url-pattern>
+        <url-pattern>/clue/selectActivityNotByClueId.do</url-pattern>
+        <url-pattern>/clue/insertActivityForClue.do</url-pattern>
+        <url-pattern>/clue/removeActivityForClue.do</url-pattern>
+        <url-pattern>/clue/clueConver.do</url-pattern>
+        <url-pattern>/clue/selectActivityListByClueId.do</url-pattern>
+        <!--<url-pattern>/clue/selectActivityByClueIdByName.do</url-pattern>-->
     </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>TransactionServlet</servlet-name>
+        <servlet-class>com.bjpowernode.crm.workbench.web.controller.TransactionServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TransactionServlet</servlet-name>
+        <url-pattern>/transaction/getCustomerNameByLikeSearch.do</url-pattern>
+        <url-pattern>/transaction/selectTransactionHsitory.do</url-pattern>
+        <url-pattern>/transaction/getUserListForShowCreatePage.do</url-pattern>
+        <url-pattern>/transaction/selectTransactionById.do</url-pattern>
+        <url-pattern>/transaction/updateStageForTransaction.do</url-pattern>
+    </servlet-mapping>
+
 </web-app>

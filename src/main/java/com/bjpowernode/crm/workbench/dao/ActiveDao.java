@@ -21,5 +21,9 @@ public interface ActiveDao {
     int updateActivity(Activity activity);
 
     Activity selectactivityDetailById(String activityId);
+    List<Activity> selectActivityNotByClueId(Map<String,Object> map);
+    List<Activity> selectActivityListByClueId(Map<String,Object> map);
+
+    List<Activity> selectActivityByClueIdByName(Map<String,Object> map);
 
 }

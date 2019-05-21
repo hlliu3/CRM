@@ -4,8 +4,21 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.bjpowernode.crm.workbench.dao.ContactsActivityRelationDao">
-	
-  	
+
+  	<insert id="insertContactsActivityRelationBath" parameterType="list">
+        insert into tbl_contacts_activity_relation (
+            id,
+            contactsId,
+            activityId
+        )values
+        <foreach collection="list" item="eachRelation" separator=",">
+            (
+                #{eachRelation.id},
+                #{eachRelation.contactsId},
+                #{eachRelation.activityId}
+            )
+        </foreach>
+    </insert>
 </mapper>
 
 

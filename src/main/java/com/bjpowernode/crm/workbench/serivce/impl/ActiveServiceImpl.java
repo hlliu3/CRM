@@ -152,4 +152,19 @@ public class ActiveServiceImpl implements ActiveService {
         flag = activeRemarkDao.insertRemark(activityRemark);
         return flag==0?false:true;
     }
+
+
+    @Override
+    public List<Activity> selectActivityNotByClueId(Map<String,Object> map) {
+        activeDao = SqlSessionUtil.getSqlSession().getMapper(ActiveDao.class);
+        List<Activity> activities = activeDao.selectActivityNotByClueId(map);
+        return activities;
+    }
+
+    @Override
+    public List<Activity> selectActivityListByClueId(Map<String, Object> map) {
+        activeDao = SqlSessionUtil.getSqlSession().getMapper(ActiveDao.class);
+        List<Activity> activities = activeDao.selectActivityListByClueId(map);
+        return activities;
+    }
 }

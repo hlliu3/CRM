@@ -4,8 +4,45 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.bjpowernode.crm.workbench.dao.CustomerDao">
-	
-  	
+	<select id="selectOriginalCustomerByCompanyName" parameterType="string" resultType="Customer">
+        select * from tbl_customer where name = #{companyName};
+    </select>
+
+    <insert id="insertCustomer" parameterType="Customer">
+        insert into tbl_customer (
+            id,
+            owner,
+            name,
+            website,
+            phone,
+            editBy,
+            createBy,
+            createTime,
+            editTime,
+            contactSummary,
+            nextContactTime,
+            description,
+            address
+        )values (
+            #{id},
+            #{owner},
+            #{name},
+            #{website},
+            #{phone},
+            #{editBy},
+            #{createBy},
+            #{createTime},
+            #{editTime},
+            #{contactSummary},
+            #{nextContactTime},
+            #{description},
+            #{address}
+        )
+    </insert>
+
+    <select id="selectCustomerNameByLikeSearch" parameterType="string" resultType="Customer">
+        select * from tbl_customer where name like '%' #{name} '%'
+    </select>
 </mapper>
 
 
