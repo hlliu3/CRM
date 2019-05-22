@@ -11,6 +11,8 @@ import com.bjpowernode.crm.workbench.domain.Tran;
 import com.bjpowernode.crm.workbench.domain.TranHistory;
 import com.bjpowernode.crm.workbench.serivce.TransactionService;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -62,5 +64,20 @@ public class TransactionServiceImpl implements TransactionService {
             flag = false;
         }
         return flag;
+    }
+
+    @Override
+    public Map<String, Object> selectTransactionForChart() {
+        int count = tranDao.selectCountTran();
+        List<Map<String, Object>> mapList = tranDao.selectTransactionByStage();
+        List<String> list = new ArrayList<>();
+        mapList.forEach(map -> {
+            list.add((String)map.get("name"));
+        });
+        Map<String,Object> resMap = new HashMap<>();
+        resMap.put("total", count);
+        resMap.put("info", mapList);
+        resMap.put("stage", list);
+        return resMap;
     }
 }

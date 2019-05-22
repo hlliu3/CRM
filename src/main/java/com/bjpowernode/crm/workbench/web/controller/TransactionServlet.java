@@ -96,4 +96,10 @@ public class TransactionServlet extends MyServlet {
         PrintJson.printJsonObj(response,resMap);
 
     }
+
+    public void selectTransactionCountByStage(HttpServletRequest request, HttpServletResponse response){
+        TransactionService transactionService = (TransactionService) ServiceFactory.getService(new TransactionServiceImpl());
+        Map<String,Object> map = transactionService.selectTransactionForChart();
+        PrintJson.printJsonObj(response, map);
+    }
 }

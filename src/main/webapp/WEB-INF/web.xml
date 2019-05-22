@@ -87,6 +87,7 @@
         <url-pattern>/transaction/getUserListForShowCreatePage.do</url-pattern>
         <url-pattern>/transaction/selectTransactionById.do</url-pattern>
         <url-pattern>/transaction/updateStageForTransaction.do</url-pattern>
+        <url-pattern>/transaction/selectTransactionCountByStage.do</url-pattern>
     </servlet-mapping>
 
 </web-app>

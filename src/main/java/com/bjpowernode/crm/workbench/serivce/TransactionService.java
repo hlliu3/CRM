@@ -20,4 +20,6 @@ public interface TransactionService {
     Tran selectTransactionById(String id);
 
     boolean updateStageForTransaction(Map<String, String> map);
+
+    Map<String, Object> selectTransactionForChart();
 }

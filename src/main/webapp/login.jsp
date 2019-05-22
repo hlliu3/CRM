@@ -12,10 +12,8 @@
     <base href="${pageContext.request.contextPath}/">
 
     <link href="jquery/bootstrap_3.3.0/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
-    <link href="src/sweetalert.css" type="text/css" rel="stylesheet" />
 
     <script type="text/javascript" src="jquery/jquery_3.4.0.js"></script>
-    <script type="text/javascript" src="src/sweetalert.js"></script>
     <script type="text/javascript" src="src/polyfills.js"></script>
     <script type="text/javascript" src="jquery/bootstrap_3.3.0/js/bootstrap.min.js"></script>
 
